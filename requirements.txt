@@ -1,8 +1,10 @@
 sqlalchemy
-psycopg2-binarypip
+psycopg2
 pandas
 fastapi
 uvicorn
 fuzzywuzzy
 pytest
 httpx
+openai==0.27.0
+python-dotenv
