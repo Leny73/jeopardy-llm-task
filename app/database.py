@@ -7,7 +7,7 @@ from app.models import JeopardyQuestion
 from utils.helpers import remove_html_tags
 import pandas as pd
 
-DATABASE_URL = "postgresql://postgres:postgresroot@localhost/jeopardy-llm"
+DATABASE_URL = "postgresql://postgres:postgresroot@localhost:5432/jeopardy-llm"
 
 # Database engine and session setup
 engine = create_engine(DATABASE_URL)
