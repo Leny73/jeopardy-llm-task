@@ -1,3 +1,8 @@
 sqlalchemy
-psycopg2-binary
+psycopg2-binarypip
 pandas
+fastapi
+uvicorn
+fuzzywuzzy
+pytest
+httpx

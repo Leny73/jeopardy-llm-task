@@ -1,35 +1,28 @@
-import os
-from sqlalchemy import create_engine, Column, Integer, String, Date
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import pandas as pd
 from datetime import datetime
-import re
+from app.db_base import Base
+from app.models import JeopardyQuestion
+from utils.helpers import remove_html_tags
+import pandas as pd
 
-# Function to remove HTML tags
-def remove_html_tags(text):
-    return re.sub(r'<.*?>', '', text)
+DATABASE_URL = "postgresql://postgres:postgresroot@localhost/jeopardy-llm"
 
-Base = declarative_base()
-
-
-class JeopardyQuestion(Base):
-    __tablename__ = 'jeopardy_questions'
-    id = Column(Integer, primary_key=True)
-    show_number = Column(Integer)
-    air_date = Column(Date)
-    round = Column(String)
-    category = Column(String)
-    value = Column(Integer)
-    question = Column(String)
-    answer = Column(String)
-
-# Replace 'username', 'password', 'localhost', 'database_name' with your PostgreSQL credentials
-
-engine = create_engine('postgresql://postgres:postgresroot@localhost/jeopardy-llm')
+# Database engine and session setup
+engine = create_engine(DATABASE_URL)
 Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()
+SessionLocal = sessionmaker(bind=engine)
+session = SessionLocal()
+
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 # Load the dataset
 df = pd.read_csv('JEOPARDY_CSV.csv')
